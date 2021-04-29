@@ -1,0 +1,311 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище LogEmployees" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="full_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="id_position" Type="int" Nullable="false" />
+          <Property Name="rate" Type="float" Nullable="false" />
+          <Property Name="id_teams" Type="int" />
+        </EntityType>
+        <EntityType Name="log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_employee" Type="int" Nullable="false" />
+          <Property Name="datetime" Type="datetime" Nullable="false" />
+          <Property Name="operation" Type="int" Nullable="false" />
+          <Property Name="name_process" Type="varchar" MaxLength="50" />
+          <Property Name="time" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="hour" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="teams">
+          <Key>
+            <PropertyRef Name="id_teams" />
+          </Key>
+          <Property Name="id_teams" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="team_name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Ошибки, обнаруженные при создании:
+предупреждение 6002: В таблице или представлении "LogEmployees.dbo.users" не определен первичный ключ. Ключ был выведен, а определение таблицы или представления было создано в режиме только для чтения.-->
+        <EntityType Name="users">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="user_name" />
+            <PropertyRef Name="full_name" />
+            <PropertyRef Name="position" />
+            <PropertyRef Name="rate" />
+            <PropertyRef Name="hour" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="full_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="position" Type="varchar" MaxLength="80" Nullable="false" />
+          <Property Name="rate" Type="float" Nullable="false" />
+          <Property Name="hour" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_employee_position">
+          <End Role="position" Type="Self.position" Multiplicity="1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="id_position" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employee_Teams">
+          <End Role="teams" Type="Self.teams" Multiplicity="0..1" />
+          <End Role="employee" Type="Self.employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teams">
+              <PropertyRef Name="id_teams" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="id_teams" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище LogEmployeesContainer">
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="position" EntityType="Self.position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teams" EntityType="Self.teams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="users" EntityType="Self.users" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [users].[id] AS [id], 
+    [users].[user_name] AS [user_name], 
+    [users].[full_name] AS [full_name], 
+    [users].[position] AS [position], 
+    [users].[rate] AS [rate], 
+    [users].[hour] AS [hour]
+    FROM [dbo].[users] AS [users]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_employee_position" Association="Self.FK_employee_position">
+            <End Role="position" EntitySet="position" />
+            <End Role="employee" EntitySet="employee" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employee_Teams" Association="Self.FK_employee_Teams">
+            <End Role="teams" EntitySet="teams" />
+            <End Role="employee" EntitySet="employee" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LogEmployees" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="id_position" Type="Int32" Nullable="false" />
+          <Property Name="rate" Type="Double" Nullable="false" />
+          <Property Name="id_teams" Type="Int32" />
+          <NavigationProperty Name="position" Relationship="Self.FK_employee_position" FromRole="employee" ToRole="position" />
+          <NavigationProperty Name="team" Relationship="Self.FK_employee_Teams" FromRole="employee" ToRole="teams" />
+          <NavigationProperty Name="logs" Relationship="Self.FK_log_employee" FromRole="employee" ToRole="log" />
+        </EntityType>
+        <EntityType Name="Log">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_employee" Type="Int32" Nullable="false" />
+          <Property Name="datetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="operation" Type="Int32" Nullable="false" />
+          <Property Name="name_process" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="time" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employee" Relationship="Self.FK_log_employee" FromRole="log" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="hour" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="employees" Relationship="Self.FK_employee_position" FromRole="position" ToRole="employee" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="id_teams" />
+          </Key>
+          <Property Name="id_teams" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="team_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="employees" Relationship="Self.FK_employee_Teams" FromRole="teams" ToRole="employee" />
+        </EntityType>
+        <Association Name="FK_employee_position">
+          <End Role="position" Type="LogEmployees.Position" Multiplicity="1" />
+          <End Role="employee" Type="LogEmployees.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="position">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="id_position" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_employee_Teams">
+          <End Role="teams" Type="LogEmployees.Team" Multiplicity="0..1" />
+          <End Role="employee" Type="LogEmployees.Employee" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="teams">
+              <PropertyRef Name="id_teams" />
+            </Principal>
+            <Dependent Role="employee">
+              <PropertyRef Name="id_teams" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_log_employee">
+          <End Role="employee" Type="LogEmployees.Employee" Multiplicity="1" />
+          <End Role="log" Type="LogEmployees.Log" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="log">
+              <PropertyRef Name="id_employee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="LogEmployees.Employee" />
+          <EntitySet Name="Logs" EntityType="LogEmployees.Log" />
+          <EntitySet Name="Positions" EntityType="LogEmployees.Position" />
+          <EntitySet Name="Teams" EntityType="LogEmployees.Team" />
+          <AssociationSet Name="FK_employee_position" Association="Self.FK_employee_position">
+            <End Role="position" EntitySet="Positions" />
+            <End Role="employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_employee_Teams" Association="Self.FK_employee_Teams">
+            <End Role="teams" EntitySet="Teams" />
+            <End Role="employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="FK_log_employee" Association="Self.FK_log_employee">
+            <End Role="employee" EntitySet="Employees" />
+            <End Role="log" EntitySet="Logs" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="LogEmployees.User" />
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="id" />
+            <PropertyRef Name="user_name" />
+            <PropertyRef Name="full_name" />
+            <PropertyRef Name="position" />
+            <PropertyRef Name="rate" />
+            <PropertyRef Name="hour" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="full_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="position" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="rate" Type="Double" Nullable="false" />
+          <Property Name="hour" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище LogEmployeesContainer" CdmEntityContainer="DBContext">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="LogEmployees.Employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="id_position" ColumnName="id_position" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="id_teams" ColumnName="id_teams" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Logs">
+            <EntityTypeMapping TypeName="LogEmployees.Log">
+              <MappingFragment StoreEntitySet="log">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_employee" ColumnName="id_employee" />
+                <ScalarProperty Name="datetime" ColumnName="datetime" />
+                <ScalarProperty Name="operation" ColumnName="operation" />
+                <ScalarProperty Name="name_process" ColumnName="name_process" />
+                <ScalarProperty Name="time" ColumnName="time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="LogEmployees.Position">
+              <MappingFragment StoreEntitySet="position">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="hour" ColumnName="hour" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="LogEmployees.Team">
+              <MappingFragment StoreEntitySet="teams">
+                <ScalarProperty Name="id_teams" ColumnName="id_teams" />
+                <ScalarProperty Name="team_name" ColumnName="team_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="LogEmployees.User">
+              <MappingFragment StoreEntitySet="users">
+                <ScalarProperty Name="hour" ColumnName="hour" />
+                <ScalarProperty Name="rate" ColumnName="rate" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="full_name" ColumnName="full_name" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

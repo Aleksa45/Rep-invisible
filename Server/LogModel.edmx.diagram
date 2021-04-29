@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d8e0392317ad4b348313ff0afd97f37e" Name="Diagram1">
+        <EntityTypeShape EntityType="LogEmployees.Employee" Width="1.5" PointX="3.125" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogEmployees.Log" Width="1.5" PointX="5.375" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogEmployees.Position" Width="1.5" PointX="0.875" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="LogEmployees.Team" Width="1.5" PointX="4.75" PointY="3.25" IsExpanded="true" />
+        <AssociationConnector Association="LogEmployees.FK_employee_position" ManuallyRouted="false" />
+        <AssociationConnector Association="LogEmployees.FK_employee_Teams" ManuallyRouted="false" />
+        <AssociationConnector Association="LogEmployees.FK_log_employee" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LogEmployees.User" Width="1.5" PointX="0.75" PointY="3.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

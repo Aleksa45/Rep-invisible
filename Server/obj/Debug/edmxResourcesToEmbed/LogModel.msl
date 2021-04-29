@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище LogEmployeesContainer" CdmEntityContainer="DBContext">
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="LogEmployees.Employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="id_position" ColumnName="id_position" />
+          <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="id_teams" ColumnName="id_teams" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Logs">
+      <EntityTypeMapping TypeName="LogEmployees.Log">
+        <MappingFragment StoreEntitySet="log">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="id_employee" ColumnName="id_employee" />
+          <ScalarProperty Name="datetime" ColumnName="datetime" />
+          <ScalarProperty Name="operation" ColumnName="operation" />
+          <ScalarProperty Name="name_process" ColumnName="name_process" />
+          <ScalarProperty Name="time" ColumnName="time" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="LogEmployees.Position">
+        <MappingFragment StoreEntitySet="position">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="hour" ColumnName="hour" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teams">
+      <EntityTypeMapping TypeName="LogEmployees.Team">
+        <MappingFragment StoreEntitySet="teams">
+          <ScalarProperty Name="id_teams" ColumnName="id_teams" />
+          <ScalarProperty Name="team_name" ColumnName="team_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="LogEmployees.User">
+        <MappingFragment StoreEntitySet="users">
+          <ScalarProperty Name="hour" ColumnName="hour" />
+          <ScalarProperty Name="rate" ColumnName="rate" />
+          <ScalarProperty Name="position" ColumnName="position" />
+          <ScalarProperty Name="full_name" ColumnName="full_name" />
+          <ScalarProperty Name="user_name" ColumnName="user_name" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

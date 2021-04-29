@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="LogEmployees" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="full_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="id_position" Type="Int32" Nullable="false" />
+    <Property Name="rate" Type="Double" Nullable="false" />
+    <Property Name="id_teams" Type="Int32" />
+    <NavigationProperty Name="position" Relationship="Self.FK_employee_position" FromRole="employee" ToRole="position" />
+    <NavigationProperty Name="team" Relationship="Self.FK_employee_Teams" FromRole="employee" ToRole="teams" />
+    <NavigationProperty Name="logs" Relationship="Self.FK_log_employee" FromRole="employee" ToRole="log" />
+  </EntityType>
+  <EntityType Name="Log">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="id_employee" Type="Int32" Nullable="false" />
+    <Property Name="datetime" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="operation" Type="Int32" Nullable="false" />
+    <Property Name="name_process" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="time" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="employee" Relationship="Self.FK_log_employee" FromRole="log" ToRole="employee" />
+  </EntityType>
+  <EntityType Name="Position">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="80" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="hour" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="employees" Relationship="Self.FK_employee_position" FromRole="position" ToRole="employee" />
+  </EntityType>
+  <EntityType Name="Team">
+    <Key>
+      <PropertyRef Name="id_teams" />
+    </Key>
+    <Property Name="id_teams" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="team_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="employees" Relationship="Self.FK_employee_Teams" FromRole="teams" ToRole="employee" />
+  </EntityType>
+  <Association Name="FK_employee_position">
+    <End Role="position" Type="LogEmployees.Position" Multiplicity="1" />
+    <End Role="employee" Type="LogEmployees.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="position">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="id_position" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_employee_Teams">
+    <End Role="teams" Type="LogEmployees.Team" Multiplicity="0..1" />
+    <End Role="employee" Type="LogEmployees.Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="teams">
+        <PropertyRef Name="id_teams" />
+      </Principal>
+      <Dependent Role="employee">
+        <PropertyRef Name="id_teams" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_log_employee">
+    <End Role="employee" Type="LogEmployees.Employee" Multiplicity="1" />
+    <End Role="log" Type="LogEmployees.Log" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="employee">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="log">
+        <PropertyRef Name="id_employee" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="DBContext" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="LogEmployees.Employee" />
+    <EntitySet Name="Logs" EntityType="LogEmployees.Log" />
+    <EntitySet Name="Positions" EntityType="LogEmployees.Position" />
+    <EntitySet Name="Teams" EntityType="LogEmployees.Team" />
+    <AssociationSet Name="FK_employee_position" Association="Self.FK_employee_position">
+      <End Role="position" EntitySet="Positions" />
+      <End Role="employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_employee_Teams" Association="Self.FK_employee_Teams">
+      <End Role="teams" EntitySet="Teams" />
+      <End Role="employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="FK_log_employee" Association="Self.FK_log_employee">
+      <End Role="employee" EntitySet="Employees" />
+      <End Role="log" EntitySet="Logs" />
+    </AssociationSet>
+    <EntitySet Name="Users" EntityType="LogEmployees.User" />
+  </EntityContainer>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="user_name" />
+      <PropertyRef Name="full_name" />
+      <PropertyRef Name="position" />
+      <PropertyRef Name="rate" />
+      <PropertyRef Name="hour" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="full_name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="position" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Name="rate" Type="Double" Nullable="false" />
+    <Property Name="hour" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>
